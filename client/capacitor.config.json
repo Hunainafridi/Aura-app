@@ -1,0 +1,11 @@
+{
+  "appId": "com.auraclarity.app",
+  "appName": "Aura",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

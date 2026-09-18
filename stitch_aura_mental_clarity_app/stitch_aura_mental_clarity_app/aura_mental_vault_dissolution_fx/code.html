@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#121318;color:#e3e1e9;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "background": "#121318", "on-secondary-container": "#00424e", "on-tertiary-fixed-variant": "#173bab", "on-background": "#e3e1e9", "primary-fixed-dim": "#adc6ff", "on-surface-variant": "#c2c6d6", "outline-variant": "#424754", "inverse-primary": "#005ac2", "surface-container-highest": "#34343a", "error-container": "#93000a", "surface-tint": "#adc6ff", "on-primary-fixed": "#001a42", "on-primary-container": "#00285d", "surface": "#121318", "on-tertiary-container": "#002074", "primary-fixed": "#d8e2ff", "on-secondary-fixed-variant": "#004e5c", "inverse-on-surface": "#2f3036", "surface-container-lowest": "#0d0e13", "secondary-container": "#03b5d3", "on-tertiary-fixed": "#001453", "secondary-fixed": "#acedff", "surface-bright": "#38393f", "on-tertiary": "#002584", "on-error": "#690005", "surface-container-low": "#1a1b21", "primary-container": "#4d8eff", "on-primary-fixed-variant": "#004395", "secondary-fixed-dim": "#4cd7f6", "on-surface": "#e3e1e9", "outline": "#8c909f", "inverse-surface": "#e3e1e9", "tertiary": "#b8c4ff", "secondary": "#4cd7f6", "surface-dim": "#121318", "on-secondary": "#003640", "primary": "#adc6ff", "surface-container-high": "#292a2f", "on-secondary-fixed": "#001f26", "surface-variant": "#34343a", "on-primary": "#002e6a", "tertiary-container": "#6d89fa", "tertiary-fixed": "#dde1ff", "tertiary-fixed-dim": "#b8c4ff", "error": "#ffb4ab", "on-error-container": "#ffdad6", "surface-container": "#1e1f25" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "space-xl": "2.25rem", "gutter": "1rem", "space-md": "1rem", "margin": "1.25rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": ["Inter"], "headline-sm": ["Inter"], "label-md": ["Inter"], "headline-md": ["Inter"], "display-lg": ["Inter"], "body-lg": ["Inter"], "label-lg": ["Inter"], "label-sm": ["Inter"], "headline-lg-mobile": ["Inter"], "display-lg-mobile": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"] }, "fontSize": { "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "500" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }], "display-lg": ["48px", { "lineHeight": "54px", "letterSpacing": "-0.03em", "fontWeight": "600" }], "body-lg": ["17px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-lg-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.025em", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    .disintegrate-effect {
+      filter: blur(14px);
+      opacity: 0 !important;
+      transform: translateY(-18px) scale(0.95);
+      transition: filter 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .counter-glow {
+      animation: scorePulse 1s ease-out;
+    }
+    @keyframes scorePulse {
+      0% { text-shadow: 0 0 0 rgba(76,215,246,0); transform: scale(1); }
+      50% { text-shadow: 0 0 20px rgba(76,215,246,0.9); color: #4cd7f6; transform: scale(1.1); }
+      100% { text-shadow: 0 0 0 rgba(76,215,246,0); transform: scale(1); }
+    }
+    .aura-glow-burst {
+      animation: auraBurst 1.8s ease-out forwards;
+    }
+    @keyframes auraBurst {
+      0% { opacity: 0; transform: scale(0.85); }
+      30% { opacity: 1; transform: scale(1.08); }
+      70% { opacity: 0.9; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.15); }
+    }
+  </style>
+</head><body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col selection:bg-secondary/20 selection:text-secondary"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/75 backdrop-blur-xl shadow-[0_1px_16px_rgba(0,0,0,0.3)]"><div class="flex flex-col"><div class="h-6 px-margin flex items-center justify-between text-on-surface-variant select-none"><span class="font-label-sm text-label-sm tracking-tight text-on-surface font-semibold">9:41</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">signal_cellular_alt</span><span class="material-symbols-outlined text-[14px]">wifi</span><span class="material-symbols-outlined text-[14px]">battery_full</span></div></div><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm uppercase tracking-[0.2em] text-primary drop-shadow-[0_0_12px_rgba(173,198,255,0.4)]">Aura</span><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high/60 backdrop-blur-md"><span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(76,215,246,0.8)] animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary font-medium lowercase tracking-wider">still</span></div></div><div class="flex items-center gap-space-sm"><div class="flex flex-col items-end"><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Cognitive Flow</span><span class="font-headline-sm text-headline-sm text-on-surface">Vault</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-22 pb-32 px-margin bg-surface"><div class="flex flex-col w-full relative">
+<!-- Particle Canvas Overlay for Dissolution Burst -->
+<canvas class="absolute inset-0 w-full h-full pointer-events-none z-30" id="dissolve-canvas"></canvas>
+<div class="relative w-full overflow-hidden rounded-xl bg-surface-container-lowest/60 backdrop-blur-2xl shadow-2xl flex flex-col items-center pt-3 pb-6" id="vault-hero">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 w-64 h-64 bg-secondary/10 rounded-full blur-3xl pointer-events-none transition-all duration-700" id="hero-orb"></div>
+<div class="absolute top-24 left-1/2 -translate-x-1/2 w-48 h-48 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high/40 backdrop-blur-md z-10">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(76,215,246,0.9)] animate-ping"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary -ml-3.5"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-[0.22em] text-secondary">Mental Vault • Synced</span>
+</div>
+<div class="relative w-full h-[300px] flex items-center justify-center my-1">
+
+<div class="absolute inset-x-8 bottom-0 h-14 bg-gradient-to-t from-surface-container-lowest/80 to-transparent pointer-events-none"></div>
+</div>
+<div class="flex items-center gap-2 z-10">
+<span class="material-symbols-outlined text-primary text-[15px] animate-pulse">lock_open</span>
+<span class="font-label-sm text-label-sm tracking-wider text-on-surface-variant font-medium">Hyper-dimensional sanctuary</span>
+</div>
+</div>
+<div class="mt-4 w-full bg-surface-container-low/70 backdrop-blur-2xl rounded-xl p-5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] flex flex-col gap-4 relative overflow-hidden transition-all duration-500" id="release-card">
+<!-- Serene Affirmation Overlay -->
+<div class="absolute inset-0 z-20 bg-surface-container-low/95 backdrop-blur-xl flex flex-col items-center justify-center gap-2.5 opacity-0 pointer-events-none transition-all duration-500" id="serene-affirmation">
+<div class="w-12 h-12 rounded-full bg-secondary/15 border border-secondary/30 flex items-center justify-center shadow-[0_0_24px_rgba(76,215,246,0.5)]">
+<span class="material-symbols-outlined text-secondary text-[24px] animate-spin" style="animation-duration: 4s;">sparkles</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-secondary font-medium tracking-wide">Dissolving into clarity...</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant tracking-wider">Your thought is safely surrendered to the ether</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">psychology</span>
+<span class="font-label-md text-label-md tracking-wide text-on-surface uppercase">Cognitive Release</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="char-count">0 / 280</span>
+</div>
+<div class="relative" id="input-wrapper">
+<textarea class="w-full bg-surface-container-lowest/70 text-on-surface placeholder:text-on-surface-variant/60 font-body-md text-body-md rounded-DEFAULT p-3.5 outline-none resize-none shadow-inner focus:shadow-[0_0_16px_rgba(76,215,246,0.25)] transition-all duration-300" id="vault-input" placeholder="Type what weighs on you..." rows="3"></textarea>
+<div class="absolute bottom-2.5 right-2.5 flex items-center gap-1 opacity-60">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">mic</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">Frequencies of Weight</span>
+<div class="flex items-center gap-2 flex-wrap" id="tag-container">
+<button class="tag-chip px-3 py-1.5 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1.5 transition-all active:scale-95 hover:bg-secondary-container/20 hover:text-secondary cursor-pointer" data-tag="Overthinking" type="button">
+<span class="w-1 h-1 rounded-full bg-secondary"></span>
+<span>Overthinking</span>
+</button>
+<button class="tag-chip px-3 py-1.5 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1.5 transition-all active:scale-95 hover:bg-secondary-container/20 hover:text-secondary cursor-pointer" data-tag="Anxiety" type="button">
+<span class="w-1 h-1 rounded-full bg-primary"></span>
+<span>Anxiety</span>
+</button>
+<button class="tag-chip px-3 py-1.5 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1.5 transition-all active:scale-95 hover:bg-secondary-container/20 hover:text-secondary cursor-pointer" data-tag="Fatigue" type="button">
+<span class="w-1 h-1 rounded-full bg-tertiary"></span>
+<span>Fatigue</span>
+</button>
+<button class="tag-chip px-3 py-1.5 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1.5 transition-all active:scale-95 hover:bg-secondary-container/20 hover:text-secondary cursor-pointer" data-tag="Self-Doubt" type="button">
+<span class="w-1 h-1 rounded-full bg-primary-fixed-dim"></span>
+<span>Self-Doubt</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-4 flex justify-center w-full relative">
+<button class="w-full py-4 px-8 rounded-full bg-gradient-to-r from-primary-container via-secondary to-secondary-container text-on-primary font-label-lg text-label-lg tracking-wide shadow-[0_0_28px_rgba(76,215,246,0.35)] active:scale-[0.97] transition-all flex items-center justify-center gap-2 relative overflow-hidden group cursor-pointer" id="dissolve-btn">
+<span class="material-symbols-outlined text-[20px] transition-transform duration-500 group-hover:rotate-45" id="dissolve-icon" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span id="dissolve-label">Dissolve &amp; Let Go</span>
+<div class="absolute inset-0 pointer-events-none opacity-0 bg-white/25 transition-opacity duration-300" id="dissolve-burst-flash"></div>
+</button>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-3 w-full">
+<div class="bg-surface-container-low/60 backdrop-blur-xl rounded-xl p-4 flex flex-col justify-between shadow-lg relative overflow-hidden" id="clarity-card">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Clarity Index</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">waves</span>
+</div>
+<div class="mt-3 flex items-baseline gap-1.5">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-semibold inline-block transition-transform duration-300" id="clarity-score">94%</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium" id="clarity-gain">+4.2%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full mt-2.5 overflow-hidden">
+<div class="h-full bg-secondary shadow-[0_0_8px_rgba(76,215,246,0.8)] w-[94%] rounded-full transition-all duration-700" id="clarity-bar"></div>
+</div>
+</div>
+<div class="bg-surface-container-low/60 backdrop-blur-xl rounded-xl p-4 flex flex-col justify-between shadow-lg relative overflow-hidden" id="dissolved-card">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Dissolved</span>
+<span class="material-symbols-outlined text-primary text-[16px]">delete_sweep</span>
+</div>
+<div class="mt-3 flex items-baseline gap-1.5">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-semibold inline-block transition-transform duration-300" id="dissolved-count">3</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-normal">burdens cleared</span>
+</div>
+<div class="flex items-center gap-1 mt-2.5" id="dot-indicators">
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(76,215,246,0.7)]"></span>
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(76,215,246,0.7)]"></span>
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(76,215,246,0.7)]"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-highest transition-colors duration-500" id="dot-4"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-highest transition-colors duration-500" id="dot-5"></span>
+</div>
+</div>
+</div>
+<div class="mt-4 bg-surface-container-low/40 backdrop-blur-md rounded-xl p-3.5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">graphic_eq</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Resonance Mode</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Binaural Theta (432Hz) Active</span>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(76,215,246,0.8)] animate-pulse"></span>
+</div>
+</div>
+<script>
+  (function() {
+    const input = document.getElementById('vault-input');
+    const inputWrapper = document.getElementById('input-wrapper');
+    const charCount = document.getElementById('char-count');
+    const dissolveBtn = document.getElementById('dissolve-btn');
+    const dissolveLabel = document.getElementById('dissolve-label');
+    const dissolveIcon = document.getElementById('dissolve-icon');
+    const dissolveFlash = document.getElementById('dissolve-burst-flash');
+    const affirmationOverlay = document.getElementById('serene-affirmation');
+    const heroOrb = document.getElementById('hero-orb');
+    const clarityScore = document.getElementById('clarity-score');
+    const clarityBar = document.getElementById('clarity-bar');
+    const clarityGain = document.getElementById('clarity-gain');
+    const dissolvedCount = document.getElementById('dissolved-count');
+    const tagChips = document.querySelectorAll('.tag-chip');
+    const canvas = document.getElementById('dissolve-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+
+    let count = 3;
+    let score = 94;
+    let isDissolving = false;
+    let particles = [];
+    let animationId = null;
+
+    // Resize canvas to match relative parent
+    function resizeCanvas() {
+      if (!canvas) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Input character counter
+    if (input && charCount) {
+      input.addEventListener('input', () => {
+        const len = input.value.length;
+        charCount.textContent = `${len} / 280`;
+        if (len > 280) {
+          input.value = input.value.substring(0, 280);
+          charCount.textContent = '280 / 280';
+        }
+      });
+    }
+
+    // Interactive Chips - append or toggle in input
+    tagChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const tag = chip.getAttribute('data-tag');
+        if (input) {
+          const current = input.value.trim();
+          if (current.includes(`#${tag}`) || current.includes(tag)) {
+            // Remove tag if re-clicked
+            input.value = current.replace(new RegExp(`(#?${tag})`, 'gi'), '').replace(/\s+/g, ' ').trim();
+            chip.classList.remove('bg-secondary/25', 'text-secondary', 'border', 'border-secondary/40');
+          } else {
+            input.value = current ? `${current} #${tag}` : `#${tag} `;
+            chip.classList.add('bg-secondary/25', 'text-secondary', 'border', 'border-secondary/40');
+          }
+          input.dispatchEvent(new Event('input'));
+          input.focus();
+        }
+      });
+    });
+
+    // Particle Dissolution Class with fluid physics
+    class DissolutionParticle {
+      constructor(x, y) {
+        this.x = x + (Math.random() - 0.5) * 220;
+        this.y = y + (Math.random() - 0.5) * 50;
+        this.radius = Math.random() * 2.8 + 1.2;
+        // Float upwards towards the vault cube
+        this.vx = (Math.random() - 0.5) * 3.5;
+        this.vy = -(Math.random() * 4.2 + 2.5);
+        this.alpha = 1;
+        this.decay = Math.random() * 0.014 + 0.009;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.08;
+        this.hue = Math.random() > 0.4 ? '76, 215, 246' : '173, 198, 255'; // cyan or sapphire
+        this.isRing = Math.random() > 0.75;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy -= 0.03; // buoyant upward lift towards cube
+        this.vx *= 0.985;
+        this.alpha -= this.decay;
+        this.rotation += this.rotSpeed;
+      }
+      draw(c) {
+        if (this.alpha <= 0) return;
+        c.save();
+        c.translate(this.x, this.y);
+        c.rotate(this.rotation);
+        c.globalAlpha = Math.max(0, this.alpha);
+
+        // Core particle glow
+        c.shadowBlur = 12;
+        c.shadowColor = `rgba(${this.hue}, 0.9)`;
+
+        if (this.isRing) {
+          c.strokeStyle = `rgba(${this.hue}, ${this.alpha})`;
+          c.lineWidth = 1.2;
+          c.beginPath();
+          c.arc(0, 0, this.radius * 1.5, 0, Math.PI * 2);
+          c.stroke();
+        } else {
+          c.fillStyle = `rgba(${this.hue}, ${this.alpha})`;
+          c.beginPath();
+          c.arc(0, 0, this.radius, 0, Math.PI * 2);
+          c.fill();
+        }
+        c.restore();
+      }
+    }
+
+    function runParticles() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.alpha <= 0 || p.y < -20) {
+          particles.splice(i, 1);
+        }
+      }
+
+      if (particles.length > 0) {
+        animationId = requestAnimationFrame(runParticles);
+      } else {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function spawnDissolutionBurst(originX, originY) {
+      resizeCanvas();
+      const count = 75; // 60-80 glowing cyan/sapphire embers
+      for (let i = 0; i < count; i++) {
+        particles.push(new DissolutionParticle(originX, originY));
+      }
+      if (!animationId) {
+        runParticles();
+      }
+    }
+
+    if (dissolveBtn) {
+      dissolveBtn.addEventListener('click', () => {
+        if (isDissolving) return;
+
+        // If completely empty, fill a sample reflective thought for tactile gratification
+        if (!input.value.trim()) {
+          input.value = "Need to let go of tomorrow's uncertainties #Overthinking";
+          if (charCount) charCount.textContent = `${input.value.length} / 280`;
+        }
+
+        isDissolving = true;
+        dissolveBtn.disabled = true;
+
+        // Button press burst flash
+        if (dissolveFlash) {
+          dissolveFlash.style.opacity = '0.45';
+          setTimeout(() => { dissolveFlash.style.opacity = '0'; }, 300);
+        }
+        dissolveBtn.classList.add('shadow-[0_0_40px_rgba(76,215,246,0.85)]', 'scale-[0.98]');
+
+        // Vault hero orb intense glow pulse
+        if (heroOrb) {
+          heroOrb.classList.add('bg-secondary/35', 'scale-125');
+        }
+
+        // Compute particle emitter origin over the input box
+        const parentRect = canvas.parentElement.getBoundingClientRect();
+        const inputRect = input.getBoundingClientRect();
+        const originX = inputRect.left - parentRect.left + (inputRect.width / 2);
+        const originY = inputRect.top - parentRect.top + (inputRect.height / 2);
+
+        // Disintegrate input text and card
+        input.classList.add('disintegrate-effect');
+
+        // Fire particle dissolution wave
+        spawnDissolutionBurst(originX, originY);
+        // Stagger a second burst wave 160ms later for depth
+        setTimeout(() => {
+          spawnDissolutionBurst(originX, originY - 15);
+        }, 160);
+
+        // Show serene affirmation overlay
+        setTimeout(() => {
+          if (affirmationOverlay) {
+            affirmationOverlay.style.pointerEvents = 'auto';
+            affirmationOverlay.style.opacity = '1';
+          }
+          dissolveLabel.textContent = "Dissolving into Ether...";
+        }, 220);
+
+        // Stats update with subtle counter glow animation
+        setTimeout(() => {
+          count += 1;
+          score = Math.min(100, score + 2);
+
+          if (dissolvedCount) {
+            dissolvedCount.textContent = count.toString();
+            dissolvedCount.classList.add('counter-glow');
+            setTimeout(() => dissolvedCount.classList.remove('counter-glow'), 1000);
+          }
+
+          if (clarityScore) {
+            clarityScore.textContent = `${score}%`;
+            clarityScore.classList.add('counter-glow');
+            setTimeout(() => clarityScore.classList.remove('counter-glow'), 1000);
+          }
+
+          if (clarityBar) {
+            clarityBar.style.width = `${score}%`;
+          }
+
+          if (clarityGain) {
+            clarityGain.textContent = `+${(4.2 + (count - 3) * 1.5).toFixed(1)}%`;
+          }
+
+          // Light up next dot indicator
+          const dot4 = document.getElementById('dot-4');
+          const dot5 = document.getElementById('dot-5');
+          if (count === 4 && dot4) {
+            dot4.className = 'w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(76,215,246,0.7)] transition-all duration-500';
+          } else if (count >= 5 && dot5) {
+            dot5.className = 'w-2 h-2 rounded-full bg-secondary shadow-[0_0_6px_rgba(76,215,246,0.7)] transition-all duration-500';
+          }
+        }, 850);
+
+        // Smooth reset after 2.5 seconds
+        setTimeout(() => {
+          if (affirmationOverlay) {
+            affirmationOverlay.style.opacity = '0';
+            affirmationOverlay.style.pointerEvents = 'none';
+          }
+
+          input.value = '';
+          input.classList.remove('disintegrate-effect');
+          if (charCount) charCount.textContent = '0 / 280';
+
+          tagChips.forEach(c => {
+            c.classList.remove('bg-secondary/25', 'text-secondary', 'border', 'border-secondary/40');
+          });
+
+          if (heroOrb) {
+            heroOrb.classList.remove('bg-secondary/35', 'scale-125');
+          }
+
+          dissolveBtn.classList.remove('shadow-[0_0_40px_rgba(76,215,246,0.85)]', 'scale-[0.98]');
+          dissolveLabel.textContent = "Dissolve & Let Go";
+          dissolveBtn.disabled = false;
+          isDissolving = false;
+        }, 2500);
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none" data-active-classes="text-secondary drop-shadow-[0_0_12px_rgba(76,215,246,0.65)] font-semibold"><div class="px-margin pb-3 pt-1 flex justify-center"><div class="pointer-events-auto w-full max-w-[420px] h-16 px-space-xs rounded-xl bg-surface-container-lowest/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 transition-colors text-secondary drop-shadow-[0_0_12px_rgba(76,215,246,0.65)] font-semibold" data-path="vault" href="#"><span class="material-symbols-outlined text-[22px]">token</span><span class="font-label-sm text-label-sm mt-0.5">Vault</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="clarity-journal" href="#"><span class="material-symbols-outlined text-[22px]">edit_note</span><span class="font-label-sm text-label-sm mt-0.5">Journal</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="breathwave" href="#"><span class="material-symbols-outlined text-[22px]">air</span><span class="font-label-sm text-label-sm mt-0.5">Breathwave</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant transition-colors hover:text-on-surface" data-path="insights" href="#"><span class="material-symbols-outlined text-[22px]">insights</span><span class="font-label-sm text-label-sm mt-0.5">Insights</span></a></div></div><div class="flex justify-center pb-1"><div class="w-32 h-1 rounded-full bg-on-surface/20"></div></div></nav></body></html>

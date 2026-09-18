@@ -1,0 +1,60 @@
+name: Aura CI/CD & Mobile Release
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-test:
+    name: Backend API Contract & Client Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Backend & Verify Contracts
+        run: |
+          cd backend
+          npm ci
+          node server.js &
+          sleep 3
+          node test.js
+
+      - name: Install Client & Validate Production Build
+        run: |
+          cd client
+          npm ci
+          npm run build
+
+  eas-build:
+    name: Expo Application Services (EAS) Native Build
+    needs: validate-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Expo & EAS CLI
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Android & iOS Internal Tracks
+        run: |
+          echo "EAS Build trigger for Aura production tracks"
+          # eas build --platform all --profile preview --non-interactive

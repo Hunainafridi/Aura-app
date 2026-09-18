@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Aura — Journal & Reflections</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            surface: {
+              DEFAULT: '#090A0F',
+              low: '#10121a',
+              container: '#151722',
+              high: '#1c1f2e',
+              glass: 'rgba(21, 23, 34, 0.65)',
+              glassHover: 'rgba(30, 34, 50, 0.8)'
+            },
+            cyan: {
+              glow: '#38bdf8',
+              bright: '#22d3ee'
+            },
+            sapphire: {
+              DEFAULT: '#3b82f6',
+              deep: '#1d4ed8'
+            }
+          },
+          animation: {
+            'float-subtle': 'float 7s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+            'shimmer': 'shimmer 8s linear infinite',
+            'fade-in': 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-6px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.75', transform: 'scale(1.04)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #090A0F;
+      color: #E2E8F0;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .glass-border {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-border-glow {
+      border: 1px solid rgba(56, 189, 248, 0.28);
+    }
+    .glow-cyan-filter {
+      box-shadow: 0 0 25px -4px rgba(56, 189, 248, 0.22);
+    }
+    .text-glow {
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+    }
+    .orb-glow {
+      filter: blur(55px);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-[#090A0F] text-slate-200 min-h-screen flex justify-center items-center p-0 sm:p-4 selection:bg-cyan-500/30">
+
+  <!-- Mobile Frame Container (iOS ~390x844 layout) -->
+  <div class="relative w-full max-w-[400px] h-[844px] bg-[#090A0F] overflow-hidden flex flex-col justify-between sm:rounded-[48px] border sm:border-white/10 shadow-2xl">
+
+    <!-- Ambient Glowing Nebulae -->
+    <div class="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-cyan-500/15 orb-glow"></div>
+    <div class="absolute top-1/3 -right-24 w-72 h-72 rounded-full bg-sapphire/15 orb-glow"></div>
+    <div class="absolute bottom-28 left-1/4 w-80 h-80 rounded-full bg-cyan-600/10 orb-glow"></div>
+
+    <!-- Background Subtle Starry / Ember Particles Canvas -->
+    <canvas id="ambientCanvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0"></canvas>
+
+    <!-- Content Wrapper -->
+    <div class="relative z-10 flex flex-col h-full overflow-hidden">
+
+      <!-- iOS Status Bar & App Header -->
+      <header class="pt-3 px-6 pb-2 shrink-0">
+        <!-- Top status row -->
+        <div class="flex justify-between items-center text-xs tracking-wider font-medium text-slate-400 mb-3">
+          <span class="font-semibold text-slate-200">9:41</span>
+          <div class="flex items-center space-x-1.5 text-slate-300">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2zm0-10h2v8h-2z"/></svg>
+            <div class="w-5 h-2.5 rounded-sm border border-slate-400 p-[1px] flex items-center">
+              <div class="w-3 h-full bg-slate-300 rounded-[1px]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- App Brand & Title Bar -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <h1 class="text-base font-bold tracking-[0.25em] text-white flex items-center">
+              AURA
+            </h1>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-cyan-950/40 text-cyan-300 border border-cyan-500/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              clarity archive
+            </span>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <!-- Search / Filter toggle button -->
+            <button id="searchBtn" class="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 transition-all flex items-center justify-center text-slate-400 hover:text-cyan-300 border border-white/[0.06]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </button>
+
+            <!-- User Avatar Sanctuary -->
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500/20 to-sapphire/30 flex items-center justify-center text-cyan-200 border border-cyan-400/30 text-xs font-semibold shadow-inner">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Title & Stats Capsule -->
+        <div class="mt-3 flex items-baseline justify-between">
+          <div>
+            <span class="text-[11px] font-medium tracking-wider uppercase text-slate-400 block">Metamorphosis</span>
+            <h2 class="text-xl font-semibold tracking-tight text-white flex items-center gap-1.5">
+              Transformed Echoes
+            </h2>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-semibold text-cyan-400" id="totalCount">8 Cleared</span>
+            <p class="text-[10px] text-slate-400 font-light">100% transmutated</p>
+          </div>
+        </div>
+
+        <!-- Frequency Filter Tabs (Interactive) -->
+        <div class="mt-3 flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 text-xs">
+          <button class="filter-tab active-tab px-3 py-1 rounded-full text-[11px] font-medium transition-all bg-gradient-to-r from-cyan-500/20 to-blue-600/20 text-cyan-300 border border-cyan-400/40 shadow-sm" data-category="all">
+            All Echoes (8)
+          </button>
+          <button class="filter-tab px-3 py-1 rounded-full text-[11px] font-medium transition-all bg-white/[0.04] text-slate-400 hover:text-slate-200 border border-white/[0.06]" data-category="Overthinking">
+            Overthinking (3)
+          </button>
+          <button class="filter-tab px-3 py-1 rounded-full text-[11px] font-medium transition-all bg-white/[0.04] text-slate-400 hover:text-slate-200 border border-white/[0.06]" data-category="Anxiety">
+            Anxiety (2)
+          </button>
+          <button class="filter-tab px-3 py-1 rounded-full text-[11px] font-medium transition-all bg-white/[0.04] text-slate-400 hover:text-slate-200 border border-white/[0.06]" data-category="Fatigue">
+            Fatigue (2)
+          </button>
+          <button class="filter-tab px-3 py-1 rounded-full text-[11px] font-medium transition-all bg-white/[0.04] text-slate-400 hover:text-slate-200 border border-white/[0.06]" data-category="Self-Doubt">
+            Self-Doubt (1)
+          </button>
+        </div>
+
+        <!-- Search input box (collapsible) -->
+        <div id="searchBar" class="hidden mt-2">
+          <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search dissolved burdens or reflections..." class="w-full bg-[#151722]/80 text-xs text-white placeholder-slate-500 rounded-xl px-3 py-2 pl-8 border border-white/10 focus:outline-none focus:border-cyan-400/50">
+            <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Subtitle hint -->
+      <div class="px-6 py-1 flex items-center justify-between text-[11px] text-slate-400 border-b border-white/[0.04]">
+        <span class="flex items-center gap-1">
+          <svg class="w-3 h-3 text-cyan-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Tap any card to reveal its Alchemical Shift
+        </span>
+        <button id="viewToggle" class="text-cyan-400/80 hover:text-cyan-300 text-[10px] font-medium transition-colors">
+          Expand All
+        </button>
+      </div>
+
+      <!-- Journal Cards Scroll Feed -->
+      <main id="cardsContainer" class="flex-1 overflow-y-auto custom-scrollbar px-5 py-3 space-y-3.5 pb-24">
+
+        <!-- Card 1: Today, Just Dissolved (Overthinking) -->
+        <article class="journal-card group relative rounded-2xl bg-gradient-to-b from-[#161926]/80 to-[#10121d]/90 backdrop-blur-xl border border-cyan-500/30 p-4 transition-all duration-300 hover:border-cyan-400/50 cursor-pointer shadow-lg shadow-cyan-950/20" data-tags="Overthinking" data-id="1">
+          <!-- Ambient card corner glow -->
+          <div class="absolute -top-10 -right-10 w-24 h-24 bg-cyan-500/10 rounded-full blur-xl pointer-events-none group-hover:bg-cyan-400/20 transition-all"></div>
+
+          <!-- Card Header -->
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                Overthinking
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Today, 9:28 AM</span>
+            </div>
+            <div class="flex items-center space-x-1.5 text-xs text-slate-400">
+              <span class="text-[10px] text-cyan-400/80 bg-cyan-950/60 px-2 py-0.5 rounded-md border border-cyan-500/20 font-mono">Vault #08</span>
+            </div>
+          </div>
+
+          <!-- Original Dissolved Thought (Before) -->
+          <div class="relative pl-3 border-l-2 border-slate-700/80 py-0.5 mb-3 transition-colors group-hover:border-cyan-500/40">
+            <span class="text-[9px] uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">Dissolved Burden:</span>
+            <p class="text-xs text-slate-300 font-light italic leading-relaxed">
+              "Endlessly obsessing over whether my team presentation hit the mark or if I sounded unprepared."
+            </p>
+          </div>
+
+          <!-- Transformed Reflection (Alchemical Insight) -->
+          <div class="reflection-box rounded-xl bg-cyan-950/30 border border-cyan-400/20 p-3 relative overflow-hidden transition-all duration-300">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-semibold tracking-wider uppercase text-cyan-300 flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+                Transformed Resonance
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 font-mono">+12% Clarity</span>
+            </div>
+
+            <p class="text-xs text-slate-100 font-normal leading-relaxed">
+              Preparation was real; replay is just anxiety lingering. Your value was delivered in the room, not in your post-meeting ruminations.
+            </p>
+
+            <!-- Integrated Micro Mantras & Actionable Release -->
+            <div class="mt-2.5 pt-2 border-t border-cyan-500/15 flex items-center justify-between text-[10px]">
+              <span class="text-cyan-400/90 italic">Mantra: "I release what has already passed."</span>
+              <button class="save-mantra-btn text-slate-400 hover:text-cyan-300 transition-colors p-1" title="Anchor Mantra">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Micro-actions -->
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Fully Dissolved
+            </span>
+            <div class="flex items-center gap-3">
+              <button class="listen-btn hover:text-cyan-300 transition-colors flex items-center gap-1 text-[10px]">
+                <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                Listen (432Hz)
+              </button>
+              <button class="expand-toggle text-[10px] text-slate-400 hover:text-slate-200">
+                Details ↓
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: Yesterday (Anxiety) -->
+        <article class="journal-card group relative rounded-2xl bg-[#131520]/80 backdrop-blur-xl border border-white/[0.08] p-4 transition-all duration-300 hover:border-cyan-500/30 cursor-pointer" data-tags="Anxiety" data-id="2">
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sapphire/20 text-blue-300 border border-blue-500/30">
+                Anxiety
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Yesterday, 8:15 PM</span>
+            </div>
+            <span class="text-[10px] text-slate-400 bg-white/[0.03] px-2 py-0.5 rounded-md font-mono">Vault #07</span>
+          </div>
+
+          <div class="relative pl-3 border-l-2 border-slate-700/80 py-0.5 mb-3">
+            <span class="text-[9px] uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">Dissolved Burden:</span>
+            <p class="text-xs text-slate-300 font-light italic leading-relaxed">
+              "Tightness in my chest anticipating tomorrow's deadlines and feeling behind on personal goals."
+            </p>
+          </div>
+
+          <div class="reflection-box rounded-xl bg-blue-950/20 border border-blue-400/20 p-3 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-semibold tracking-wider uppercase text-blue-300 flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                Transformed Resonance
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 font-mono">+18% Calm</span>
+            </div>
+
+            <p class="text-xs text-slate-100 font-normal leading-relaxed">
+              Urgency is rarely an emergency. Time is an ocean, not a sprint; progress occurs in rhythmic waves, not frantic bursts.
+            </p>
+
+            <div class="mt-2.5 pt-2 border-t border-blue-500/15 flex items-center justify-between text-[10px]">
+              <span class="text-blue-300/90 italic">Mantra: "I have space to breathe."</span>
+              <button class="save-mantra-btn text-slate-400 hover:text-blue-300 transition-colors p-1" title="Anchor Mantra">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Transmuted
+            </span>
+            <button class="listen-btn hover:text-cyan-300 transition-colors flex items-center gap-1 text-[10px]">
+              <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+              Listen (528Hz)
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3: 2 Days Ago (Fatigue) -->
+        <article class="journal-card group relative rounded-2xl bg-[#131520]/80 backdrop-blur-xl border border-white/[0.08] p-4 transition-all duration-300 hover:border-cyan-500/30 cursor-pointer" data-tags="Fatigue" data-id="3">
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                Fatigue
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Oct 24, 11:42 PM</span>
+            </div>
+            <span class="text-[10px] text-slate-400 bg-white/[0.03] px-2 py-0.5 rounded-md font-mono">Vault #06</span>
+          </div>
+
+          <div class="relative pl-3 border-l-2 border-slate-700/80 py-0.5 mb-3">
+            <span class="text-[9px] uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">Dissolved Burden:</span>
+            <p class="text-xs text-slate-300 font-light italic leading-relaxed">
+              "Mental depletion from constant context-switching and sensory overload on screens."
+            </p>
+          </div>
+
+          <div class="reflection-box rounded-xl bg-purple-950/20 border border-purple-400/20 p-3 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-semibold tracking-wider uppercase text-purple-300 flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+                Transformed Resonance
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300 font-mono">+15% Vitality</span>
+            </div>
+
+            <p class="text-xs text-slate-100 font-normal leading-relaxed">
+              Rest is not a reward to earn after collapse; it is the sacred substrate where imagination regenerates.
+            </p>
+
+            <div class="mt-2.5 pt-2 border-t border-purple-500/15 flex items-center justify-between text-[10px]">
+              <span class="text-purple-300/90 italic">Mantra: "Stillness restores my energy."</span>
+              <button class="save-mantra-btn text-slate-400 hover:text-purple-300 transition-colors p-1" title="Anchor Mantra">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Transmuted
+            </span>
+            <button class="listen-btn hover:text-cyan-300 transition-colors flex items-center gap-1 text-[10px]">
+              <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+              Listen (Deep Delta)
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 4: Self-Doubt (Transformed into Confidence) -->
+        <article class="journal-card group relative rounded-2xl bg-[#131520]/80 backdrop-blur-xl border border-white/[0.08] p-4 transition-all duration-300 hover:border-cyan-500/30 cursor-pointer" data-tags="Self-Doubt" data-id="4">
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                Self-Doubt
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Oct 22, 4:10 PM</span>
+            </div>
+            <span class="text-[10px] text-slate-400 bg-white/[0.03] px-2 py-0.5 rounded-md font-mono">Vault #05</span>
+          </div>
+
+          <div class="relative pl-3 border-l-2 border-slate-700/80 py-0.5 mb-3">
+            <span class="text-[9px] uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">Dissolved Burden:</span>
+            <p class="text-xs text-slate-300 font-light italic leading-relaxed">
+              "Wondering if I'm impostor in this new role and afraid someone will notice I don't know every single answer."
+            </p>
+          </div>
+
+          <div class="reflection-box rounded-xl bg-amber-950/20 border border-amber-400/20 p-3 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-semibold tracking-wider uppercase text-amber-300 flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                Transformed Resonance
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 font-mono">+24% Confidence</span>
+            </div>
+
+            <p class="text-xs text-slate-100 font-normal leading-relaxed">
+              Not knowing everything is curiosity, not fraud. Your ability to learn and hold integrity is your true mastery.
+            </p>
+
+            <div class="mt-2.5 pt-2 border-t border-amber-500/15 flex items-center justify-between text-[10px]">
+              <span class="text-amber-300/90 italic">Mantra: "I learn with courage and grace."</span>
+              <button class="save-mantra-btn text-slate-400 hover:text-amber-300 transition-colors p-1" title="Anchor Mantra">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Transmuted
+            </span>
+            <button class="listen-btn hover:text-cyan-300 transition-colors flex items-center gap-1 text-[10px]">
+              <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+              Listen (528Hz)
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 5: Overthinking (Relationship Dynamics) -->
+        <article class="journal-card group relative rounded-2xl bg-[#131520]/80 backdrop-blur-xl border border-white/[0.08] p-4 transition-all duration-300 hover:border-cyan-500/30 cursor-pointer" data-tags="Overthinking" data-id="5">
+          <div class="flex items-center justify-between mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
+                Overthinking
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Oct 20, 2:18 PM</span>
+            </div>
+            <span class="text-[10px] text-slate-400 bg-white/[0.03] px-2 py-0.5 rounded-md font-mono">Vault #04</span>
+          </div>
+
+          <div class="relative pl-3 border-l-2 border-slate-700/80 py-0.5 mb-3">
+            <span class="text-[9px] uppercase tracking-wider font-semibold text-slate-400 block mb-0.5">Dissolved Burden:</span>
+            <p class="text-xs text-slate-300 font-light italic leading-relaxed">
+              "Analyzing the tone of a two-word text message for three hours."
+            </p>
+          </div>
+
+          <div class="reflection-box rounded-xl bg-cyan-950/20 border border-cyan-400/20 p-3 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-semibold tracking-wider uppercase text-cyan-300 flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+                Transformed Resonance
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 font-mono">+16% Freedom</span>
+            </div>
+
+            <p class="text-xs text-slate-100 font-normal leading-relaxed">
+              You are projecting your own need for perfection onto other people's brevity. Brevity is simply someone moving through their day.
+            </p>
+
+            <div class="mt-2.5 pt-2 border-t border-cyan-500/15 flex items-center justify-between text-[10px]">
+              <span class="text-cyan-400/90 italic">Mantra: "I do not invent stories in silence."</span>
+              <button class="save-mantra-btn text-slate-400 hover:text-cyan-300 transition-colors p-1" title="Anchor Mantra">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Transmuted
+            </span>
+            <button class="listen-btn hover:text-cyan-300 transition-colors flex items-center gap-1 text-[10px]">
+              <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+              Listen (Theta 432Hz)
+            </button>
+          </div>
+        </article>
+
+      </main>
+
+      <!-- Bottom Audio Resonance Player Floater (Binaural Anchor) -->
+      <div id="audioBar" class="absolute bottom-[72px] left-4 right-4 bg-[#141622]/90 backdrop-blur-xl border border-cyan-500/20 rounded-2xl p-2.5 flex items-center justify-between shadow-xl z-20">
+        <div class="flex items-center space-x-2.5">
+          <button id="playAudioBtn" class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+            <svg id="playIcon" class="w-3.5 h-3.5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pauseIcon" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="overflow-hidden">
+            <p class="text-[11px] font-medium text-slate-200 truncate">Solace of Let-Go</p>
+            <p class="text-[9px] text-cyan-400 font-mono flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              Binaural Theta (432Hz) • Restoring Sanctuary
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-1.5 pr-1">
+          <!-- Animated sound waves -->
+          <div class="flex items-center space-x-0.5 h-3.5">
+            <span class="w-0.5 h-2 bg-cyan-400/60 rounded-full animate-pulse"></span>
+            <span class="w-0.5 h-3.5 bg-cyan-300 rounded-full animate-pulse" style="animation-delay: 0.15s"></span>
+            <span class="w-0.5 h-1.5 bg-cyan-400/60 rounded-full animate-pulse" style="animation-delay: 0.3s"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento Minimal Bottom Navigation Dock (Matching Aura Shell) -->
+      <nav class="absolute bottom-0 inset-x-0 bg-[#0c0d14]/95 backdrop-blur-2xl border-t border-white/[0.07] px-6 py-2.5 flex justify-between items-center z-30">
+        <!-- Vault Tab (Link back to dissolution screen) -->
+        <a href="#" class="nav-item group flex flex-col items-center justify-center text-slate-400 hover:text-cyan-300 transition-colors">
+          <svg class="w-5 h-5 mb-0.5 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+          </svg>
+          <span class="text-[10px] font-medium tracking-tight">Vault</span>
+        </a>
+
+        <!-- Journal Tab (ACTIVE on this screen) -->
+        <a href="#" class="nav-item flex flex-col items-center justify-center text-cyan-400 relative">
+          <div class="relative">
+            <svg class="w-5 h-5 mb-0.5 drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+            </svg>
+            <!-- Active dot glow indicator -->
+            <span class="absolute -top-1 right-0 w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#38bdf8]"></span>
+          </div>
+          <span class="text-[10px] font-semibold tracking-tight text-cyan-300">Journal</span>
+        </a>
+
+        <!-- Breathwave Tab -->
+        <a href="#" class="nav-item group flex flex-col items-center justify-center text-slate-400 hover:text-cyan-300 transition-colors">
+          <svg class="w-5 h-5 mb-0.5 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
+          </svg>
+          <span class="text-[10px] font-medium tracking-tight">Breathwave</span>
+        </a>
+
+        <!-- Insights Tab -->
+        <a href="#" class="nav-item group flex flex-col items-center justify-center text-slate-400 hover:text-cyan-300 transition-colors">
+          <svg class="w-5 h-5 mb-0.5 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.25 2.25L15 6"/>
+          </svg>
+          <span class="text-[10px] font-medium tracking-tight">Insights</span>
+        </a>
+      </nav>
+
+      <!-- Home Indicator bar -->
+      <div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full z-40 pointer-events-none"></div>
+
+    </div>
+
+    <!-- Interactive Modal / Focus Shift Overlay -->
+    <div id="reflectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex-col justify-end transition-opacity duration-300 p-4">
+      <div class="bg-[#12141e] border border-cyan-500/30 rounded-3xl p-5 shadow-2xl space-y-4 max-w-[370px] mx-auto w-full transform transition-transform">
+        <div class="flex justify-between items-center border-b border-white/10 pb-3">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-cyan-300" id="modalCategory">Reflection Transmutation</span>
+          </div>
+          <button id="closeModalBtn" class="text-slate-400 hover:text-white text-sm p-1">✕</button>
+        </div>
+
+        <div>
+          <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Before (Dissolved Burden)</span>
+          <p id="modalBurden" class="text-xs text-slate-300 italic mt-1 bg-black/40 p-3 rounded-xl border border-white/5"></p>
+        </div>
+
+        <div>
+          <span class="text-[10px] font-medium text-cyan-400 uppercase tracking-wider">Alchemical Shift</span>
+          <p id="modalReflection" class="text-xs text-slate-100 font-normal leading-relaxed mt-1 bg-cyan-950/30 p-3 rounded-xl border border-cyan-400/20"></p>
+        </div>
+
+        <div class="bg-cyan-500/10 p-3 rounded-xl border border-cyan-400/20 flex items-center justify-between">
+          <div>
+            <span class="text-[9px] text-cyan-300 uppercase tracking-wider font-semibold block">Anchor Affirmation</span>
+            <p id="modalMantra" class="text-xs text-cyan-200 font-medium"></p>
+          </div>
+          <button id="modalAnchorBtn" class="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-semibold transition-all">
+            Anchor
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="absolute top-16 left-1/2 -translate-x-1/2 bg-cyan-950/90 text-cyan-200 text-xs px-4 py-2 rounded-full border border-cyan-400/40 shadow-xl opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
+      <svg class="w-3.5 h-3.5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      <span id="toastMsg">Mantra saved to Sanctuary</span>
+    </div>
+
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    (function() {
+      // Ambient Canvas Particle Simulation (Gentle glowing drifting embers)
+      const canvas = document.getElementById('ambientCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.parentElement.clientWidth || 390;
+        let height = canvas.height = canvas.parentElement.clientHeight || 844;
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = canvas.parentElement.clientWidth || 390;
+          height = canvas.height = canvas.parentElement.clientHeight || 844;
+        });
+
+        const particles = [];
+        const particleCount = 28;
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 1.5 + 0.6,
+            vy: - (Math.random() * 0.35 + 0.15),
+            vx: (Math.random() - 0.5) * 0.2,
+            alpha: Math.random() * 0.7 + 0.2,
+            color: Math.random() > 0.4 ? '56, 189, 248' : '59, 130, 246'
+          });
+        }
+
+        function renderParticles() {
+          ctx.clearRect(0, 0, width, height);
+          for (let p of particles) {
+            p.y += p.vy;
+            p.x += p.vx;
+            if (p.y < 0) {
+              p.y = height + 10;
+              p.x = Math.random() * width;
+            }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = `rgba(${p.color}, 0.8)`;
+            ctx.fill();
+          }
+          requestAnimationFrame(renderParticles);
+        }
+        renderParticles();
+      }
+
+      // Filter Tabs Logic
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      const cards = document.querySelectorAll('.journal-card');
+      const totalCount = document.getElementById('totalCount');
+
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => {
+            t.classList.remove('active-tab', 'bg-gradient-to-r', 'from-cyan-500/20', 'to-blue-600/20', 'text-cyan-300', 'border-cyan-400/40');
+            t.classList.add('bg-white/[0.04]', 'text-slate-400', 'border-white/[0.06]');
+          });
+          tab.classList.add('active-tab', 'bg-gradient-to-r', 'from-cyan-500/20', 'to-blue-600/20', 'text-cyan-300', 'border-cyan-400/40');
+          tab.classList.remove('bg-white/[0.04]', 'text-slate-400', 'border-white/[0.06]');
+
+          const category = tab.dataset.category;
+          let visibleCount = 0;
+
+          cards.forEach(card => {
+            const cardTags = card.dataset.tags || '';
+            if (category === 'all' || cardTags.includes(category)) {
+              card.style.display = 'block';
+              card.classList.add('animate-fade-in');
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          if (totalCount) {
+            totalCount.innerText = `${visibleCount} Shown`;
+          }
+        });
+      });
+
+      // Search functionality
+      const searchBtn = document.getElementById('searchBtn');
+      const searchBar = document.getElementById('searchBar');
+      const searchInput = document.getElementById('searchInput');
+
+      if (searchBtn && searchBar && searchInput) {
+        searchBtn.addEventListener('click', () => {
+          searchBar.classList.toggle('hidden');
+          if (!searchBar.classList.contains('hidden')) {
+            searchInput.focus();
+          }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          let count = 0;
+          cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            if (text.includes(query)) {
+              card.style.display = 'block';
+              count++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+          if (totalCount) totalCount.innerText = `${count} Matches`;
+        });
+      }
+
+      // Audio Resonance Mode Bar Toggle
+      const playAudioBtn = document.getElementById('playAudioBtn');
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      let isPlaying = false;
+
+      if (playAudioBtn) {
+        playAudioBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          isPlaying = !isPlaying;
+          if (isPlaying) {
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+            showToast('432Hz Binaural Theta field active');
+          } else {
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+            showToast('Audio paused');
+          }
+        });
+      }
+
+      // Listen buttons on each card
+      const listenBtns = document.querySelectorAll('.listen-btn');
+      listenBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          isPlaying = true;
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          const title = btn.innerText.replace('Listen', '').trim();
+          showToast(`Immersing in ${title || 'Frequency'}`);
+        });
+      });
+
+      // Mantra Anchoring Toast
+      const mantraBtns = document.querySelectorAll('.save-mantra-btn');
+      mantraBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          btn.classList.toggle('text-cyan-300');
+          btn.classList.toggle('text-slate-400');
+          showToast('Mantra anchored into Mind Sanctuary ✨');
+        });
+      });
+
+      // Expand / Modal details
+      const modal = document.getElementById('reflectionModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const modalCategory = document.getElementById('modalCategory');
+      const modalBurden = document.getElementById('modalBurden');
+      const modalReflection = document.getElementById('modalReflection');
+      const modalMantra = document.getElementById('modalMantra');
+      const modalAnchorBtn = document.getElementById('modalAnchorBtn');
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const burdenText = card.querySelector('.border-l-2 p').innerText;
+          const reflectionText = card.querySelector('.reflection-box > p').innerText;
+          const mantraText = card.querySelector('.reflection-box span.italic')?.innerText || 'Release & let go';
+          const tag = card.dataset.tags || 'Reflection';
+
+          modalCategory.innerText = `${tag} Metamorphosis`;
+          modalBurden.innerText = burdenText;
+          modalReflection.innerText = reflectionText;
+          modalMantra.innerText = mantraText;
+
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        });
+      });
+
+      if (closeModalBtn && modal) {
+        closeModalBtn.addEventListener('click', () => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        });
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+          }
+        });
+      }
+
+      if (modalAnchorBtn) {
+        modalAnchorBtn.addEventListener('click', () => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          showToast('Affirmation anchored to Vault');
+        });
+      }
+
+      // Expand all toggle
+      const viewToggle = document.getElementById('viewToggle');
+      let expanded = false;
+      if (viewToggle) {
+        viewToggle.addEventListener('click', () => {
+          expanded = !expanded;
+          viewToggle.innerText = expanded ? 'Collapse All' : 'Expand All';
+          document.querySelectorAll('.reflection-box').forEach(box => {
+            box.style.borderWidth = expanded ? '2px' : '1px';
+            box.style.borderColor = expanded ? 'rgba(56, 189, 248, 0.45)' : 'rgba(56, 189, 248, 0.2)';
+          });
+          showToast(expanded ? 'Expanded all reflections' : 'Standard view');
+        });
+      }
+
+      // Toast utility
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+        if (toast && toastMsg) {
+          toastMsg.innerText = msg;
+          toast.classList.remove('opacity-0', 'pointer-events-none');
+          toast.classList.add('opacity-100');
+          setTimeout(() => {
+            toast.classList.add('opacity-0', 'pointer-events-none');
+            toast.classList.remove('opacity-100');
+          }, 2400);
+        }
+      }
+
+    })();
+  </script>
+</body>
+</html>
