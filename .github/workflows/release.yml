@@ -37,8 +37,10 @@ jobs:
 
       - name: Copy Web Assets to Android Platform
         run: |
-          cd client
-          npx cap copy android
+          mkdir -p client/android/app/src/main/assets/public
+          cp -r client/dist/* client/android/app/src/main/assets/public/
+          cp client/capacitor.config.json client/android/app/src/main/assets/capacitor.config.json
+          echo "[]" > client/android/app/src/main/assets/capacitor.plugins.json
 
       - name: Build Android APK
         run: |
