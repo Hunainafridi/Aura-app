@@ -16,6 +16,11 @@ service-account*.json
 google-services.json
 GoogleService-Info.plist
 
+# Proprietary Documents & Specifications (Keep Local Only)
+APP_STORE_PLAY_STORE_METADATA.md
+AURA_VENTURE_DTX_WHITEPAPER.md
+*.pdf
+
 # Local Machine Configurations
 local.properties
 .env.local
