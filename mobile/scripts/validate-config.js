@@ -3,8 +3,14 @@ import path from 'path';
 
 console.log('🔍 Auditing Aura Mobile Configuration for App Store & Google Play Store...');
 
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const mobileDir = path.resolve(__dirname, '..');
+
 // 1. Check app.json
-const appJsonPath = path.resolve('./app.json');
+const appJsonPath = path.resolve(mobileDir, 'app.json');
 if (!fs.existsSync(appJsonPath)) {
   console.error('❌ app.json is missing!');
   process.exit(1);
@@ -34,7 +40,7 @@ for (const p of requiredPerms) {
 console.log('✅ Android permissions verified:', permissions.length, 'permissions declared');
 
 // 4. Check eas.json
-const easJsonPath = path.resolve('./eas.json');
+const easJsonPath = path.resolve(mobileDir, 'eas.json');
 if (!fs.existsSync(easJsonPath)) throw new Error('Missing eas.json');
 const easJson = JSON.parse(fs.readFileSync(easJsonPath, 'utf8'));
 console.log('✅ eas.json build profiles verified (production: app-bundle for Android, distribution for iOS)');
@@ -42,7 +48,7 @@ console.log('✅ eas.json build profiles verified (production: app-bundle for An
 // 5. Verify asset images
 const requiredAssets = [expo.icon, expo.splash?.image, expo.android?.adaptiveIcon?.foregroundImage];
 for (const a of requiredAssets) {
-  if (a && !fs.existsSync(path.resolve(a))) {
+  if (a && !fs.existsSync(path.resolve(mobileDir, a))) {
     throw new Error(`Asset file missing: ${a}`);
   }
 }
@@ -50,15 +56,15 @@ console.log('✅ Visual assets verified (icon.png, adaptive-icon.png, splash.png
 
 // 6. Check TypeScript source files
 const srcFiles = [
-  './App.tsx',
-  './src/VoicePurgeAnchor.tsx',
-  './src/services/storage.ts',
-  './src/services/syncQueue.ts',
-  './widgets/AuraWidget.swift',
-  './widgets/AuraWidget.kt'
+  'App.tsx',
+  'src/VoicePurgeAnchor.tsx',
+  'src/services/storage.ts',
+  'src/services/syncQueue.ts',
+  'widgets/AuraWidget.swift',
+  'widgets/AuraWidget.kt'
 ];
 for (const s of srcFiles) {
-  if (!fs.existsSync(path.resolve(s))) {
+  if (!fs.existsSync(path.resolve(mobileDir, s))) {
     throw new Error(`Source file missing: ${s}`);
   }
 }

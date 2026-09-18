@@ -62,6 +62,7 @@ mobile/android/build/
 *.sqlite-wal
 *.sqlite-shm
 backend/*.db
+backend/vault_data.json
 
 # Expo & Mobile Caches
 .expo/
