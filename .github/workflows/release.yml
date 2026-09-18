@@ -35,10 +35,10 @@ jobs:
           npm install
           npm run build
 
-      - name: Setup Capacitor Platforms (Android & iOS)
+      - name: Setup Capacitor Android Platform
         run: |
           cd client
-          npx cap sync
+          npx cap sync android
 
       - name: Build Android APK
         run: |
