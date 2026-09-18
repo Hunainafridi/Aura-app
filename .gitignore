@@ -40,6 +40,7 @@ out/
 *.apk
 *.aab
 *.ipa
+*.zip
 
 # Android Gradle & SDK Caches
 .gradle/

@@ -1,0 +1,87 @@
+name: Aura Release & Mobile Artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Mobile Binaries & Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17 (for Android SDK)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Client & Build Production Web Assets
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      - name: Setup Capacitor Platforms (Android & iOS)
+        run: |
+          cd client
+          npx cap sync
+
+      - name: Build Android APK
+        run: |
+          cd client/android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk ../../Aura-v1.0.0.apk
+
+      - name: Archive iOS Xcode Project
+        run: |
+          zip -r Aura-iOS-v1.0.0.zip client/ios
+
+      - name: Create GitHub Release & Upload APK
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Aura v1.0.0 - Mobile Release (Android APK & iOS Package)"
+          tag_name: ${{ github.ref_name || 'v1.0.0' }}
+          draft: false
+          prerelease: false
+          body: |
+            # 🚀 Aura Mental Well-Being - Release v1.0.0
+            
+            Welcome to the official **v1.0.0** release of **Aura**, the high-assurance, zero-knowledge emotional processing and nocturnal journal platform.
+
+            ---
+
+            ### 📦 Included Artifacts
+            - **`Aura-v1.0.0.apk`**: Native Android application binary ready for direct installation (sideloading or distribution).
+            - **`Aura-iOS-v1.0.0.zip`**: Complete native iOS Xcode project (`App.xcodeproj`) ready to sign and submit to App Store Connect / TestFlight.
+
+            ---
+
+            ### 🌟 Core Innovations & Highlights
+            1. **Zero-Effort Voice Purge (Voice-to-Vapor)**:
+               - On-device speech recognition transcribes thoughts in real time.
+               - On release, text instantly dissolves into 350+ embers with audio discarded immediately.
+            2. **SOS 30-Second Panic Button**:
+               - 4-4-4-4 Box Breathing modal with vagus nerve regulation and 432Hz theta audio frequency.
+            3. **Universal Morning Question Retention Loop**:
+               - 2-Tap reflection matrix ("Doesn't Matter Anymore" vs "Still Relevant" 1-line action item & .ics calendar export).
+            4. **Zero-Knowledge Envelope Encryption & Offline Air-Gap**:
+               - AES-256-GCM client-side encryption.
+               - Full local-first offline journaling with seamless zero-knowledge remote synchronization.
+          files: |
+            Aura-v1.0.0.apk
+            Aura-iOS-v1.0.0.zip
